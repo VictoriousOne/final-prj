@@ -40,16 +40,16 @@ const SavedBooks = () => {
 
   return (
     <>
-      <Jumbotron fluid className='text-light bg-dark'>
+      <Jumbotron fluid className='text-light bg-secondary'>
         <Container>
-          <h1>Viewing saved books!</h1>
+          <h1>Viewing saved games!</h1>
         </Container>
       </Jumbotron>
       <Container>
         <h2>
           {userData.savedBooks.length
             ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
-            : 'You have no saved books!'}
+            : 'You have no saved games!'}
         </h2>
         <CardColumns>
           {userData.savedBooks.map((book) => {
@@ -58,10 +58,8 @@ const SavedBooks = () => {
                 {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
-                  <p className='small'>Authors: {book.authors}</p>
-                  <Card.Text>{book.description}</Card.Text>
                   <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
-                    Delete this Book!
+                    Delete this Game!
                   </Button>
                 </Card.Body>
               </Card>
