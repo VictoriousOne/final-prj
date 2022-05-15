@@ -29,13 +29,16 @@ const SearchBooks = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    let slug = searchInput.split(' ').join('-').toLowerCase();
+
+
     if (!searchInput) {
       return false;
     }
 
     try {
       const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchInput}`
+        `https://api.rawg.io/api/games?key=b84ccf2052cb47f282ee68d5c06e6991&page_size=20&search=${slug}`
       );
 
 
@@ -43,14 +46,12 @@ const SearchBooks = () => {
         throw new Error('something went wrong!');
       }
 
-      const { items } = await response.json();
+      const { results } = await response.json();
 
-      const bookData = items.map((book) => ({
-        bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
+      const bookData = results.map((book) => ({
+        bookId: book.id.toString(),
+        title: book.name,
+        image: book.background_image,
       }));
 
       setSearchedBooks(bookData);
@@ -128,8 +129,8 @@ const SearchBooks = () => {
                 ) : null}
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
-                  <p className='small'>Authors: {book.authors}</p>
-                  <Card.Text>{book.description}</Card.Text>
+                  <p className='small'>Authors: No Authors</p>
+                  <Card.Text>No Text</Card.Text>
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
